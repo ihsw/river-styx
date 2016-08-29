@@ -4,16 +4,12 @@ import * as HttpStatus from "http-status";
 import { server as app } from "../src/app";
 import { test, ContextualTestContext } from "ava";
 
-const errorCallback = (t: ContextualTestContext, err: Error, msg: string) => {
-    t.is(err, null, msg);
-};
-
 const testRequest = (t: ContextualTestContext, url: string, status: number, body: string, message: string) => {
     request(app)
         .get(url)
         .expect(status)
         .expect(body)
-        .end((err, res) => errorCallback(t, err, message));
+        .end((err, res) => t.is(err, null, message));
 };
 
 test(
