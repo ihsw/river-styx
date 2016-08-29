@@ -8,17 +8,18 @@
     "suppressTaskName": true,
     "tasks": [
         {
-            "taskName": "install",
-            "args": ["install"]
-        },
-        {
-            "taskName": "update",
-            "args": ["update"]
-        },
-        {
             "taskName": "test",
             "args": ["run", "test", "--silent"],
             "isTestCommand": true
+        },
+        {
+            "taskName": "build",
+            "args": ["run", "build"],
+            "isBuildCommand": true
+        },
+        {
+            "taskName": "lint",
+            "args": ["run", "lint", "--silent"]
         }
     ]
 }
