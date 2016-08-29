@@ -15,7 +15,6 @@ const appMap = {
     "/awg": awg,
     "/ofc": ofc
 };
-
 const multiplexer = (req: express.Request, res: express.Response) => {
     for (const prefix in appMap) {
         if (req.url.startsWith(prefix)) {
