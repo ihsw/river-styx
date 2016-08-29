@@ -14,7 +14,7 @@
         },
         {
             "taskName": "build",
-            "args": ["run", "build"],
+            "args": ["run", "build", "--silent"],
             "isBuildCommand": true
         },
         {

@@ -2,10 +2,10 @@
   "name": "shared-sockets",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./dist/src/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "tslint ./tests/**/*.ts ./src/**/*.ts && echo 'success'",
+    "build": "tsc && echo built",
+    "lint": "tslint ./tests/**/*.ts ./src/**/*.ts && echo linted",
     "test": "tsc && ava -t ./dist/tests/**/*.js | tap-spec"
   },
   "author": "",
