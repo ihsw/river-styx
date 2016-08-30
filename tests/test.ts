@@ -2,14 +2,17 @@
 import * as request from "supertest";
 import * as HttpStatus from "http-status";
 import { server as app } from "../src/app";
-import { test, ContextualTestContext } from "ava";
+import * as test from "tape";
 
-const testRequest = (t: ContextualTestContext, url: string, status: number, body: string, message: string) => {
+const testRequest = (t: test.Test, url: string, status: number, body: string, message: string) => {
     request(app)
         .get(url)
         .expect(status)
         .expect(body)
-        .end((err, res) => t.is(err, null, message));
+        .end((err, res) => {
+            t.is(err, null, message);
+            t.end();
+        });
 };
 
 test(
@@ -19,7 +22,7 @@ test(
 
 test(
     "AWG Should return AWG",
-    (t) => testRequest(t, "/awg", HttpStatus.OK, "AWG", "GET /awg failed")
+    (t) => testRequest(t, "/awg", HttpStatus.OK, "AWGGG", "GET /awg failed")
 );
 
 test(

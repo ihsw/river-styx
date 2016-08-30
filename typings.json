@@ -1,7 +1,8 @@
 {
   "name": "shared-sockets",
   "dependencies": {
-    "express": "registry:npm/express#4.14.0+20160815112707"
+    "express": "registry:npm/express#4.14.0+20160815112707",
+    "tape": "registry:npm/tape#4.0.0+20160723033700"
   },
   "globalDependencies": {
     "http-status": "registry:dt/http-status#0.2.1+20160412142223",
