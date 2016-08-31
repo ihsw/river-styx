@@ -54,13 +54,17 @@ export class ChildProcess {
                     return;
                 }
 
-                this.process.kill(killSignal);
+                this.kill(killSignal);
                 resolve(this.onExit());
             }, timeout);
         });
     }
 
     kill(signal: string) {
+        if (!this.isRunning) {
+            throw new Error("ChildProcess is not running!");
+        }
+
         this.process.kill(signal);
     }
 
