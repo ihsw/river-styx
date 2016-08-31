@@ -49,7 +49,7 @@ test("ChildProcess disconnect with timeout", (t) => {
         const [durationSeconds, durationMs] = process.hrtime(startTime);
         const actualDuration = durationSeconds + (durationMs / (1 * 1000 * 1000 * 1000));
 
-        t.is(actualDuration, expectedDuration);
+        t.is(Number(actualDuration.toFixed(1)), expectedDuration / 1000);
         t.is(childProcess.exitCode, null);
         t.is(childProcess.exitSignal, "SIGINT");
         t.end();
