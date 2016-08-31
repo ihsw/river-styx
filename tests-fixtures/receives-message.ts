@@ -1,0 +1,1 @@
+process.on("message", (message: any) => process.send(message));

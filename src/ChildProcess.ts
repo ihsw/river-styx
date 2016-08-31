@@ -20,7 +20,24 @@ export class ChildProcess {
         this.process.send(message);
     }
 
+    async receive(): Promise<any> {
+        return new Promise<ChildProcess>((resolve, reject) => {
+            if (!this.isRunning) {
+                reject(new Error("ChildProcess is not running!"));
+                return;
+            }
+
+            this.process.on("message", (message) => {
+                resolve(message);
+            });
+        });
+    }
+
     disconnect() {
+        if (!this.isRunning) {
+            throw new Error("ChildProcess is not running!");
+        }
+
         this.process.disconnect();
     }
 

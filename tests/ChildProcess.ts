@@ -72,3 +72,23 @@ test("ChildProcess is killed", (t) => {
         t.end();
     });
 });
+
+test("ChildProcess receives and returns a message", (t) => {
+    const childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/receives-message`);
+    childProcess.run();
+
+    const greeting = "Hello, world!";
+    childProcess.send(greeting);
+    childProcess.receive().then((response: any) => {
+        t.is(response, greeting, "Response matches message sent");
+        childProcess.disconnect();
+
+        return childProcess.onExit();
+    }).then((childProcess: ChildProcess) => {
+        t.is(childProcess.exitCode, 0, "Exits with 0");
+        t.end();
+    }).catch((err: Error) => {
+        t.is(err, null);
+        t.end();
+    });
+});
