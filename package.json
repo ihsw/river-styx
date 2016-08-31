@@ -1,5 +1,5 @@
 {
-  "name": "shared-sockets",
+  "name": "river-styx",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/src/index.js",
