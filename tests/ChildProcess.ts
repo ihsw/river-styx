@@ -33,16 +33,18 @@ test("ChildProcess disconnect with timeout", async (t) => {
     childProcess.run();
 
     const expectedDurationMs = 2.5 * 1000;
+    const adjustedExpectedDuration = expectedDurationMs / 1000;
+
     childProcess = await childProcess.disconnectWithTimeout(expectedDurationMs, "SIGINT");
     const [durationSeconds, durationUs] = process.hrtime(startTime);
     const actualDuration = durationSeconds + (durationUs / (1 * 1000 * 1000 * 1000));
     const adjustedActualDuration = Number(actualDuration.toFixed(1));
-    const adjustedExpectedDuration = expectedDurationMs / 1000;
     t.true(
         adjustedActualDuration > adjustedExpectedDuration - 0.25
         && adjustedExpectedDuration < adjustedExpectedDuration + 0.25,
         "Timeout is between 2.25s and 2.75s"
     );
+
     t.is(childProcess.exitCode, null, "Null exit code");
     t.is(childProcess.exitSignal, "SIGINT", "SIGINT exit signal");
 });
