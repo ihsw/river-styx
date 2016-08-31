@@ -58,3 +58,17 @@ test("ChildProcess disconnect with timeout", (t) => {
         t.end();
     });
 });
+
+test("ChildProcess is killed", (t) => {
+    const childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/run`);
+    childProcess.run();
+    childProcess.kill("SIGINT");
+    childProcess.onExit().then((childProcess: ChildProcess) => {
+        t.is(childProcess.exitCode, null, "Null exit code");
+        t.is(childProcess.exitSignal, "SIGINT", "SIGINT exit signal");
+        t.end();
+    }).catch((err: Error) => {
+        t.is(err, null);
+        t.end();
+    });
+});
