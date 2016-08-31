@@ -1,31 +1,12 @@
 /// <reference path="../typings/index.d.ts" />
-import * as request from "supertest";
-import * as HttpStatus from "http-status";
-import { server as app } from "../src/app";
 import * as test from "tape";
+import { App } from "../src/App";
+import { ChildProcess } from "../src/ChildProcess";
 
-const testRequest = (t: test.Test, url: string, status: number, body: string, message: string) => {
-    request(app)
-        .get(url)
-        .expect(status)
-        .expect(body)
-        .end((err, res) => {
-            t.is(err, null, message);
-            t.end();
-        });
-};
-
-test(
-    "Homepage Should fail with NOT_FOUND",
-    (t) => testRequest(t, "/", HttpStatus.NOT_FOUND, "FOUR OH FOUR!", "GET / failed")
-);
-
-test(
-    "AWG Should return AWG",
-    (t) => testRequest(t, "/awg", HttpStatus.OK, "AWGGG", "GET /awg failed")
-);
-
-test(
-    "OFC Should return OFC",
-    (t) => testRequest(t, "/ofc", HttpStatus.OK, "OFC", "GET /ofc failed")
-);
+test("App runs", (t) => {
+    const app = new App();
+    app.run().then((awg: ChildProcess) => {
+        t.is(awg.exitCode, 0);
+        t.end();
+    });
+});

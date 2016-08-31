@@ -1,3 +1,6 @@
-import { server } from "./app";
+import { App } from "./App";
 
-server.listen(80, () => console.log("Listening on 80"));
+const app = new App();
+app.run().then(() => {
+    console.log("RAN!");
+});
