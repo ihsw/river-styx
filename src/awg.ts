@@ -1,1 +1,1 @@
-console.log("awg.ts");
+process.exit(0);
