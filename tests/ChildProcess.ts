@@ -41,7 +41,7 @@ test("ChildProcess disconnect with timeout", async (t) => {
     t.true(
         adjustedActualDuration > adjustedExpectedDuration - 0.25
         && adjustedExpectedDuration < adjustedExpectedDuration + 0.25,
-        "Timeout is 2.5s"
+        "Timeout is between 2.25s and 2.75s"
     );
     t.is(childProcess.exitCode, null, "Null exit code");
     t.is(childProcess.exitSignal, "SIGINT", "SIGINT exit signal");
