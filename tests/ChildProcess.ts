@@ -32,11 +32,11 @@ test("ChildProcess disconnect with timeout", async (t) => {
     let childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/disconnect-with-timeout`);
     childProcess.run();
 
-    const expectedDuration = 2.5 * 1000;
-    childProcess = await childProcess.disconnectWithTimeout(expectedDuration, "SIGINT");
-    const [durationSeconds, durationMs] = process.hrtime(startTime);
-    const actualDuration = durationSeconds + (durationMs / (1 * 1000 * 1000 * 1000));
-    t.is(Number(actualDuration.toFixed(1)), expectedDuration / 1000, "Timeout is 2.5s");
+    const expectedDurationMs = 2.5 * 1000;
+    childProcess = await childProcess.disconnectWithTimeout(expectedDurationMs, "SIGINT");
+    const [durationSeconds, durationUs] = process.hrtime(startTime);
+    const actualDuration = durationSeconds + (durationUs / (1 * 1000 * 1000 * 1000));
+    t.is(Number(actualDuration.toFixed(1)), expectedDurationMs / 1000, "Timeout is 2.5s");
     t.is(childProcess.exitCode, null, "Null exit code");
     t.is(childProcess.exitSignal, "SIGINT", "SIGINT exit signal");
 });
