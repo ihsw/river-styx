@@ -6,7 +6,7 @@ test("ChildProcess runs", (t) => {
     const childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/run`);
     childProcess.run();
     childProcess.onExit().then((childProcess: ChildProcess) => {
-        t.is(childProcess.exitCode, 0);
+        t.is(childProcess.exitCode, 0, "Exits with 0");
         t.end();
     }).catch((err: Error) => {
         t.is(err, null);
@@ -18,7 +18,7 @@ test("ChildProcess fails with 1", (t) => {
     const childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/run-fail`);
     childProcess.run();
     childProcess.onExit().then((childProcess: ChildProcess) => {
-        t.is(childProcess.exitCode, 1);
+        t.is(childProcess.exitCode, 1, "Exits with 1");
         t.end();
     }).catch((err: Error) => {
         t.is(err, null);
@@ -31,7 +31,7 @@ test("ChildProcess disconnects", (t) => {
     childProcess.run();
     childProcess.disconnect();
     childProcess.onExit().then((childProcess: ChildProcess) => {
-        t.is(childProcess.exitCode, 0);
+        t.is(childProcess.exitCode, 0, "Exits with 0");
         t.end();
     }).catch((err: Error) => {
         t.is(err, null);
@@ -49,9 +49,9 @@ test("ChildProcess disconnect with timeout", (t) => {
         const [durationSeconds, durationMs] = process.hrtime(startTime);
         const actualDuration = durationSeconds + (durationMs / (1 * 1000 * 1000 * 1000));
 
-        t.is(Number(actualDuration.toFixed(1)), expectedDuration / 1000);
-        t.is(childProcess.exitCode, null);
-        t.is(childProcess.exitSignal, "SIGINT");
+        t.is(Number(actualDuration.toFixed(1)), expectedDuration / 1000, "Timeout is 2.5s");
+        t.is(childProcess.exitCode, null, "Null exit code");
+        t.is(childProcess.exitSignal, "SIGINT", "SIGINT exit signal");
         t.end();
     }).catch((err: Error) => {
         t.is(err, null);
