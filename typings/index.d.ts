@@ -4,3 +4,4 @@
 /// <reference path="globals/supertest/index.d.ts" />
 /// <reference path="modules/express/index.d.ts" />
 /// <reference path="modules/tape/index.d.ts" />
+/// <reference path="../node_modules/ava/types/generated.d.ts" />

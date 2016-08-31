@@ -1,12 +1,9 @@
 /// <reference path="../typings/index.d.ts" />
-import * as test from "tape";
+import { test } from "ava";
 import { AppManager } from "../src/AppManager";
-import { ChildProcess } from "../src/ChildProcess";
 
-test("AppManager runs", (t) => {
+test("AppManager runs", async (t) => {
     const appManager = new AppManager();
-    appManager.run().then((awg: ChildProcess) => {
-        t.is(awg.exitCode, 0, "AWG exits with 0");
-        t.end();
-    });
+    const awg = await appManager.run();
+    t.is(awg.exitCode, 0, "AWG exits with 0");
 });
