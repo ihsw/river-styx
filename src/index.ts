@@ -1,6 +1,6 @@
-import { App } from "./App";
+import { AppManager } from "./AppManager";
 
-const app = new App();
-app.run().then(() => {
+const appManager = new AppManager();
+appManager.run().then(() => {
     console.log("RAN!");
 });
