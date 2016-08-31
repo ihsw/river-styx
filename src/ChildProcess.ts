@@ -21,7 +21,7 @@ export class ChildProcess {
     }
 
     async receive(): Promise<any> {
-        return new Promise<ChildProcess>((resolve, reject) => {
+        return new Promise<any>((resolve, reject) => {
             if (!this.isRunning) {
                 reject(new Error("ChildProcess is not running!"));
                 return;
