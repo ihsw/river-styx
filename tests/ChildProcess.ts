@@ -1,5 +1,7 @@
 /// <reference path="../typings/main.d.ts" />
 import { test } from "ava";
+import * as supertest from "supertest";
+import * as HttpStatus from "http-status";
 import { ChildProcess } from "../src/ChildProcess";
 
 test("ChildProcess runs", async (t) => {
@@ -67,8 +69,29 @@ test("ChildProcess receives and returns a message", async (t) => {
     childProcess.send(greeting);
     const response = await childProcess.receive();
     t.is(response, greeting, "Response matches message sent");
-    childProcess.disconnect();
 
+    childProcess.disconnect();
+    childProcess = await childProcess.onExit();
+    t.is(childProcess.exitCode, 0, "Exits with 0");
+});
+
+test("ChildProcess loads express app", async (t) => {
+    let childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/express-response`);
+    childProcess.run();
+
+    interface IHttpMessage {
+        url: string;
+    }
+    const message = <IHttpMessage>{
+        url: "/"
+    };
+
+    childProcess.send(message);
+    const res: supertest.Response = await childProcess.receive();
+    t.is(res.status, HttpStatus.OK, "Http response status is OK");
+    t.is(res.text, "Hello, world!", "Http response body is standard greeting");
+
+    childProcess.disconnect();
     childProcess = await childProcess.onExit();
     t.is(childProcess.exitCode, 0, "Exits with 0");
 });
