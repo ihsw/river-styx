@@ -24,7 +24,7 @@ export class ChildProcess {
         this.process.send(message);
     }
 
-    async receive(): Promise<any> {
+    receive(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             if (!this.isRunning) {
                 reject(new Error("ChildProcess is not running!"));
@@ -37,7 +37,7 @@ export class ChildProcess {
         });
     }
 
-    async disconnect(): Promise<ChildProcess> {
+    disconnect(): Promise<ChildProcess> {
         if (!this.isRunning) {
             throw new Error("ChildProcess is not running!");
         }
@@ -46,7 +46,7 @@ export class ChildProcess {
         return this.onExit();
     }
 
-    async disconnectWithTimeout(timeout: number, killSignal: string = "SIGINT"): Promise<ChildProcess> {
+    disconnectWithTimeout(timeout: number, killSignal: string = "SIGINT"): Promise<ChildProcess> {
         return new Promise<ChildProcess>((resolve, reject) => {
             if (!this.isRunning) {
                 reject(new Error("ChildProcess is not running!"));
@@ -78,7 +78,7 @@ export class ChildProcess {
         return this.onExit();
     }
 
-    async onExit(): Promise<ChildProcess> {
+    onExit(): Promise<ChildProcess> {
         return new Promise<ChildProcess>((resolve, reject) => {
             if (!this.isRunning) {
                 reject(new Error("ChildProcess is not running!"));
