@@ -15,7 +15,7 @@ test.cb("Blank WebFrontend should return NOT_FOUND", (t) => {
         });
 });
 
-test.cb.only("WebFrontend should load basic route", (t) => {
+test.cb("WebFrontend should load basic route", (t) => {
     const webFrontend = new WebFrontend();
 
     const childProcess = new ChildProcess("../tests-fixtures/express-response");

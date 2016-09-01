@@ -7,6 +7,10 @@ interface IRoutes {
     [routePrefix: string]: ChildProcess;
 }
 
+export interface IHttpMessage {
+    url: string;
+}
+
 export class WebFrontend {
     app: express.Application;
     routes: IRoutes;
@@ -20,8 +24,15 @@ export class WebFrontend {
         this.routes[routePrefix] = childProcess;
 
         childProcess.run();
-        this.app.all(routePrefix, (req, res) => {
-            childProcess.send(req);
+        this.app.all(routePrefix, (req: express.Request, res: express.Response) => {
+            // serializing and forwarding the request to the child-process route handler
+            const url = req.url.substr(routePrefix.length);
+            const requestMessage: IHttpMessage = {
+                url: url
+            };
+            childProcess.send(requestMessage);
+
+            // handling the response
             childProcess.receive().then((message: supertest.Response) => {
                 res.send(message.text);
             });
