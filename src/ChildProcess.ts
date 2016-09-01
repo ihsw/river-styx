@@ -37,12 +37,13 @@ export class ChildProcess {
         });
     }
 
-    disconnect() {
+    async disconnect(): Promise<ChildProcess> {
         if (!this.isRunning) {
             throw new Error("ChildProcess is not running!");
         }
 
         this.process.disconnect();
+        return this.onExit();
     }
 
     async disconnectWithTimeout(timeout: number, killSignal: string = "SIGINT"): Promise<ChildProcess> {
@@ -52,25 +53,29 @@ export class ChildProcess {
                 return;
             }
 
+            let shouldBailHard = true;
             this.process.disconnect();
+            this.onExit().then((updatedChildProcess: ChildProcess) => {
+                shouldBailHard = false;
+                resolve(updatedChildProcess);
+            }).catch(reject);
             setTimeout(() => {
-                if (!this.isRunning) {
-                    resolve(this.onExit());
+                if (!shouldBailHard) {
                     return;
                 }
 
-                this.kill(killSignal);
-                resolve(this.onExit());
+                this.kill(killSignal).then(resolve, reject);
             }, timeout);
         });
     }
 
-    kill(signal: string) {
+    kill(signal: string): Promise<ChildProcess> {
         if (!this.isRunning) {
             throw new Error("ChildProcess is not running!");
         }
 
         this.process.kill(signal);
+        return this.onExit();
     }
 
     async onExit(): Promise<ChildProcess> {
@@ -83,6 +88,7 @@ export class ChildProcess {
             this.process.on("exit", (code: number, signal: string) => {
                 this.exitCode = code;
                 this.exitSignal = signal;
+                this.isRunning = false;
                 resolve(this);
             });
         });
