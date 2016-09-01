@@ -7,7 +7,8 @@
     "build": "tsc && echo built",
     "lint": "tslint ./tests/**/*.ts ./src/**/*.ts && echo linted",
     "test": "tsc && ava --verbose ./dist/tests/**/*.js",
-    "typings": "typings"
+    "typings": "typings",
+    "ava": "tsc && ava"
   },
   "author": "",
   "license": "ISC",
