@@ -79,13 +79,8 @@ test("ChildProcess loads express app", async (t) => {
     let childProcess = new ChildProcess(`${__dirname}/../tests-fixtures/express-response`);
     childProcess.run();
 
-    interface IHttpMessage {
-        url: string;
-    }
-    const message = <IHttpMessage>{
-        url: "/"
-    };
-
+    interface IHttpMessage { url: string; }
+    const message = <IHttpMessage>{ url: "/" };
     childProcess.send(message);
     const res: supertest.Response = await childProcess.receive();
     t.is(res.status, HttpStatus.OK, "Http response status is OK");
