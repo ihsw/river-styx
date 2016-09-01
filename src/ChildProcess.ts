@@ -17,6 +17,10 @@ export class ChildProcess {
     }
 
     send(message) {
+        if (!this.isRunning) {
+            throw new Error("Child process is not running!");
+        }
+
         this.process.send(message);
     }
 
@@ -51,6 +55,7 @@ export class ChildProcess {
             this.process.disconnect();
             setTimeout(() => {
                 if (!this.isRunning) {
+                    resolve(this.onExit());
                     return;
                 }
 
