@@ -31,9 +31,7 @@ export class ChildProcess {
                 return;
             }
 
-            this.process.on("message", (message) => {
-                resolve(message);
-            });
+            this.process.on("message", (message) => resolve(message));
         });
     }
 
